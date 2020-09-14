@@ -49,19 +49,23 @@ names(train_lable) <- "activity"
 names(train_subject) <- "subject_num"
 names(test) <- col_names$V2
 names(train) <- col_names$V2
+#merge them to form a united data set#
+
+test_all <- data.frame(cbind(test_subject,test_lable, test))
 # find the columns to keep#
 col_to_keep <- grep(".+mean.+|.+std.+",names(test_all))
-#merge them to form a united data set#
-test_all <- data.frame(cbind(test_subject,test_lable, test))
 train_all <- data.frame(cbind(train_subject,train_lable, train))
 test_all <- test_all[,c(1,2,col_to_keep)]
 train_all <- train_all[,c(1,2,col_to_keep)]
 merged_data <- rbind(test_all, train_all)
+
 #label the activities#
 merged_data$activity <- lapply(merged_data$activity, to_activity)
 
 #new data set: group by activities and find the mean for each variables#
+activity <- group_by(merged_data, activity)
 activity_mean <- activity %>% summarise_if(is.numeric, mean, na.rm = TRUE)
 
 #new data set: group by subjects and fin the mean for each variables#
+subject <- group_by(merged_data, subject_num)
 subject_mean <- subject %>% summarise_if(is.numeric, mean, na.rm = TRUE)
