@@ -3,22 +3,22 @@
 
 to_activity <- function(x){
   if (x == 1){
-    return ('WALKING')
+    return ("WALKING")
   }
   else if (x == 2){
-    return ('WALKING_UPSTAIRS')
+    return ("WALKING_UPSTAIRS")
   }
   else if (x == 3){
-    return ('WALKING_DOWNSTAIRS')
+    return ("WALKING_DOWNSTAIRS")
   }
   else if (x == 4){
-    return ('SITTING')
+    return ("SITTING")
   }
   else if (x == 5){
-    return ('STANDING')
+    return ("STANDING")
   }
   else if (x == 6){
-    return ('LAYING')
+    return ("LAYING")
   }
 }
 
@@ -62,10 +62,11 @@ merged_data <- rbind(test_all, train_all)
 #label the activities#
 merged_data$activity <- lapply(merged_data$activity, to_activity)
 
-#new data set: group by activities and find the mean for each variables#
-activity <- group_by(merged_data, activity)
-activity_mean <- activity %>% summarise_if(is.numeric, mean, na.rm = TRUE)
+#new data set: group by activities and subjects and find the mean for each variables#
+act_sub_grouped_mean <- merged_data %>% 
+                group_by(activity, subject_num)%>%
+                summarise_all(mean)
 
-#new data set: group by subjects and fin the mean for each variables#
-subject <- group_by(merged_data, subject_num)
-subject_mean <- subject %>% summarise_if(is.numeric, mean, na.rm = TRUE)
+#write to a file#
+act_sub_grouped_mean$activity <- as.character(act_sub_grouped_mean$activity) 
+write.table(act_sub_grouped_mean, file = "./data/tidy_data.txt", row.name=FALSE)
