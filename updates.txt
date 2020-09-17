@@ -1,9 +1,9 @@
 ----------Code book for data-cleaning updates----------
 
-According to requirements, I created 3 datasets, which are 'merged_data', 'activity_mean', and 'subject_mean'.
+According to requirements, I created 2 datasets, which are 'merged_data', 'tidy_data'.
 
 'merged_data' : merge 3 tables into one in the both 'test' and 'train' directories.
-'activity_mean', and 'subject_mean' : a summary of the average values grouping by activity or subject.
+'tidy_data' : a summary of the average values grouping by activity or subject.
 
 Their column names are as follow.
 
